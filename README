@@ -3,8 +3,8 @@
 ##########################################
 
 Rosanna Milner, Thomas Hain @ SPandh, University of Sheffield
-http://mini.dcs.shef.ac.uk/resources/sw/dia_segmentfmeasure/
-[submitted to Interspeech 2015] "Segment-oriented evaluation of Speaker Diarisation performance"
+https://mini.dcs.shef.ac.uk/resources/speaker-diarisation-evaluation/
+[ICASSP 2016] "Segment-oriented evaluation of Speaker Diarisation performance"
 
 @inproceedings{Milner2016b,
   author    = {Rosanna Milner and
