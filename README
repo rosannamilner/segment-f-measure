@@ -1,0 +1,114 @@
+##########################################
+# CONTACT
+##########################################
+
+Rosanna Milner, Thomas Hain @ SPandh, University of Sheffield
+http://mini.dcs.shef.ac.uk/resources/sw/dia_segmentfmeasure/
+[submitted to Interspeech 2015] "Segment-oriented evaluation of Speaker Diarisation performance"
+
+@inproceedings{Milner2016b,
+  author    = {Rosanna Milner and
+               Thomas Hain},
+  title     = {Segment-oriented evaluation of speaker diarisation performance},
+  booktitle = {{ICASSP}},
+  pages     = {5460--5464},
+  publisher = {{IEEE}},
+  year      = {2016}
+}
+
+##########################################
+# USAGE
+##########################################
+
+This script takes a reference RTTM file (or list of RTTM files) and a hypothesis RTTM file (or a list of RTTM files) and calculates the segment F-measure for speaker diarisation Evaluation. 
+
+For using list examples and collar 0.1:
+
+$ ./segmentfmeasure_v1.0.py ./rttm/list.ref.rttm ./rttm/list.sys.rttm -c 0.1 --list
+
+For using concatenated examples (or single files) and collar 0.1:
+
+$ ./segmentfmeasure_v1.0.py ./rttm/example1+example2.ref.rttm ./rttm/example1+example2.sys.rttm -c 0.1
+
+
+##########################################
+# HELP (./segmentfmeasure_v1.0.py -h)
+##########################################
+
+usage: segmentfmeasure_v1.0.py [-h] [-u UEM] [-g GAP] [-c COLLAR]
+                               [-d {uniform,triangular,Gaussian}]
+                               [-t THRESHOLD] [-p PADDING] [-cs COLLAR_SCALE]
+                               [-f FOLDER] [--sad] [-m] [--list] [--save]
+                               ref hyp
+
+positional arguments:
+  ref                   Reference RTTM file (or list with flag --list)
+  hyp                   Hypothesis RTTM file (or list with flag --list)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -u UEM, --uem UEM     UEM file (can be single file or list)
+  -g GAP, --gap GAP     Smoothing gap (seconds)
+  -c COLLAR, --collar COLLAR
+                        Collar around reference boundaries (+/- seconds)
+  -d {uniform,triangular,Gaussian}, --distribution {uniform,triangular,Gaussian}
+                        Distribution around reference boundaries
+  -t THRESHOLD, --threshold THRESHOLD
+                        Threshold for segment match/no match decision (not
+                        uniform distribution)
+  -p PADDING, --padding PADDING
+                        Padding around hypothesis boundary
+  -cs COLLAR_SCALE, --collar-scale COLLAR_SCALE
+                        Scale to multiply collar if boundary type NONSPEECH
+  -f FOLDER, --folder FOLDER
+                        Folder in which to save smoothed RTTM files
+  --sad                 Score Speech Activity Detection only - ignore speaker
+                        labels
+  -m, --spkr-map        Display speaker mapping information
+  --list                REF and HYP are lists of RTTMs
+  --save                Save smoothed RTTM files
+
+
+##########################################
+# OUPUT
+##########################################
+
+SE:	speaker error (sum of impure reference speakers and missed reference speakers
+SSE:	speaker segment error (hypothesis segments assigned to the incorrect speaker)
+MAT:	reference-hypothesis segment matches
+INS:	hypothesis segment insertions (unmatched to a reference segment)
+DEL:	reference segment deletions (unmatched to a hypothesis segment)
+PRC:	segment precision
+RCL:	segment recall
+F:	segment F-measure
+
+The overall score for SE is weighted by the number of reference speakers, SSE is weigthed by the number of matched segments used for the speaker mapping stage, and the rest are weigthed by the number of reference segments. For example:
+
+$ ./segmentfmeasure_v1.3.py rttm/example1.ref.rttm ./rttm/example1.sys.rttm -u uem/example1.uem -c 0.1
+--------------------------------
+FILE:	example1
+EVAL TIME:	50.00 TO 250.00
+REF SEGMENTS:	72
+HYP SEGMENTS:	110
+REF SEGMENTS (SMOOTHED GAP 0.25):	60
+COLLAR:	 0.10
+--------
+REF SPEAKERS:			4
+HYP CLUSTERS:			4
+BOUNDARY MATCHED SEGMENTS:	36
+MAPPED SPEAKER-CLUSTER PAIRS:	4
+UNASSIGNED SPEAKERS:		0
+UNASSIGNED CLUSTERS:		0
+PURE SPEAKER-CLUSTER PAIRS:	2
+IMPURE SPEAKER-CLUSTER PAIRS:	2
+SPEAKER ERROR (SE):		50.00 % ( (2 + 0) / 4 )
+SPEAKER SEGMENT ERROR (SSE):	5.56 % ( 2 / 36 )
+--------
+SE:	50.0 %
+SSE:	5.6 %
+MAT:	56.7 %
+INS:	95.0 %
+DEL:	43.3 %
+PRC:	37.4 %
+RCL:	56.7 %
+F:	45.0 %

@@ -1,0 +1,7 @@
+Apache segmentfmeasure.py
+Copyright 2015 The Apache Software Foundation
+
+This product includes software developed at SPandH, The University of Sheffield.
+The Apache Software Foundation (http://www.apache.org/).
+
+Please see website for further details and paper citation: http://mini.dcs.shef.ac.uk/resources/sw/dia_segmentfmeasure/
